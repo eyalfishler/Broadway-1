@@ -318,6 +318,12 @@ YUVCanvas.prototype.initProgram = function() {
     ].join('\n');
   };
 
+  var supportsHighPrecision = gl.getShaderPrecisionFormat && gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT).precision != 0;
+  if (!supportsHighPrecision) {
+    vertexShaderScript = vertexShaderScript.replace(/ highp /, ' mediump ');
+    fragmentShaderScript = fragmentShaderScript.replace(/ highp /, ' mediump ');
+  }
+
   var YUV2RGB = [];
 
   if (this.conversionType == "rec709") {
